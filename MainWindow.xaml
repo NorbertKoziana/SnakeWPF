@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="800">
+        Title="MainWindow" Height="650" Width="800"
+        KeyDown="ChangeDirectionHandler">
     <Grid>
-        <UniformGrid Name="GameGrid" Margin="60, 40" Rows="10" Columns="10" Background="Beige" 
+        <UniformGrid Name="GameGrid" Margin="60, 40" Rows="16" Columns="16" Background="Beige" 
                      HorizontalAlignment="Center" VerticalAlignment="Center">
         </UniformGrid>
     </Grid>

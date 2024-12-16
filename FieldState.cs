@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp3
 {
-    public enum Field
+    public enum FieldState
     {
         Empty, SnakeHead, Snake, Fruit
     }
