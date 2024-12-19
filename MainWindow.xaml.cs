@@ -45,6 +45,8 @@ namespace WpfApp3
 
             snake.GenerateNewFruit();
 
+            InfoText.Text = "Score: ";
+
             startMovingSnake();
         }
 
@@ -168,6 +170,8 @@ namespace WpfApp3
 
         private void StopGame()
         {
+            InfoText.Text = "You lost with score: " + snake.Score;
+            ScoreText.Text = "Press space to continue";
             _isGameActive = false;
         }
 
