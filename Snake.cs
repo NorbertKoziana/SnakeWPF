@@ -94,7 +94,9 @@ namespace WpfApp3
                 return;
             }
 
-            if(snakeLocation.Count != 1)
+            if(snakeLocation.Count == 1)
+                fieldStateChanged.Invoke(headLocation, FieldState.Empty, null);
+            else
                 fieldStateChanged.Invoke(headLocation, FieldState.Snake, null);
 
             snakeLocation.AddFirst(newHeadLocation);
