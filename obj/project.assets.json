@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kozia\\Desktop\\C#\\WpfApp3\\WpfApp3.csproj",
-      "projectName": "WpfApp3",
-      "projectPath": "C:\\Users\\kozia\\Desktop\\C#\\WpfApp3\\WpfApp3.csproj",
+      "projectUniqueName": "C:\\Users\\kozia\\Desktop\\C#\\WpfApp3\\SnakeWpf.csproj",
+      "projectName": "SnakeWpf",
+      "projectPath": "C:\\Users\\kozia\\Desktop\\C#\\WpfApp3\\SnakeWpf.csproj",
       "packagesPath": "C:\\Users\\kozia\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\kozia\\Desktop\\C#\\WpfApp3\\obj\\",
       "projectStyle": "PackageReference",

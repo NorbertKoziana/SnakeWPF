@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace WpfApp3
 {
-    public class Snake
+    public class Snake : INotifyPropertyChanged
     {
         public event Action<Tuple<int, int>, FieldState, Direction?> fieldStateChanged;
         public event Action gameEnded;
@@ -14,6 +17,25 @@ namespace WpfApp3
         public LinkedList<Tuple<int, int>> snakeLocation;
         public Direction snakeHeadDirection;
         public Tuple<int, int> fruitLocation;
+
+        private int _score;
+        public int Score {
+            get
+            {
+                return _score;
+            }
+            set {
+                _score = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private int boardRows;
         private int boardCols;
@@ -25,10 +47,19 @@ namespace WpfApp3
             this.snakeHeadDirection = Direction.Right;
             this.boardRows = boardRows;
             this.boardCols = boardCols;
+            Score = 0;
         }
 
         public void ChangeDirection(Direction newDirection)
         {
+            if (
+                (snakeHeadDirection == Direction.Left && newDirection == Direction.Right) ||
+                (snakeHeadDirection == Direction.Right && newDirection == Direction.Left) ||
+                (snakeHeadDirection == Direction.Top && newDirection == Direction.Bottom) ||
+                (snakeHeadDirection == Direction.Bottom && newDirection == Direction.Top)
+            )
+                return;
+
             this.snakeHeadDirection = newDirection;
             fieldStateChanged.Invoke(snakeLocation.First(), FieldState.SnakeHead, newDirection);
         }
@@ -76,8 +107,8 @@ namespace WpfApp3
 
             if (FieldContainsFruit(newHeadLocation))
             {
-                fieldStateChanged.Invoke(fruitLocation, FieldState.Empty, null);
                 GenerateNewFruit();
+                Score = Score + 1;
             }
             else
             {

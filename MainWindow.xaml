@@ -8,8 +8,25 @@
         Title="MainWindow" Height="650" Width="800"
         KeyDown="ChangeDirectionHandler">
     <Grid>
-        <UniformGrid Name="GameGrid" Margin="60, 40" Rows="16" Columns="16" Background="Beige" 
-                     HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Score:" VerticalAlignment="Center" Margin="10" Padding="5"
+                   FontWeight="Bold" FontSize="34"/>
+            <TextBlock Name="ScoreText" Text="TextBlock" VerticalAlignment="Center" Margin="10" Padding="5"
+                       FontWeight="Bold" FontSize="34"/>
+        </StackPanel>
+
+        <UniformGrid Name="GameGrid" Grid.Row="1" Margin="60, 40" Rows="20" Columns="20" Background="Beige" 
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     UseLayoutRounding="True" >
         </UniformGrid>
     </Grid>
 </Window>

@@ -31,17 +31,21 @@ namespace WpfApp3
 
             InitializeSnake();
 
+            BindScore();
+
             snake.fieldStateChanged += UpdateBoard;
 
             snake.GenerateNewFruit();
 
-            callNextMove();
+            startMovingSnake();
         }
-        private async void callNextMove()
+        private async void startMovingSnake()
         {
-            await Task.Delay(100);
-            snake.MakeNextMove();
-            callNextMove();
+            while (true)
+            {
+                await Task.Delay(150);
+                snake.MakeNextMove();
+            }
         }
 
         private void InitializeSnake()
@@ -58,8 +62,13 @@ namespace WpfApp3
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
                     Image imageField = new Image();
-                    imageField.Width = 50;
-                    GameGrid.Children.Add(imageField);
+
+                    Border imageBorder = new Border();
+                    imageBorder.BorderThickness = new Thickness(1);
+                    imageBorder.BorderBrush = new SolidColorBrush(Colors.DimGray) { Opacity = 0.3 };
+                    imageBorder.Child = imageField;
+
+                    GameGrid.Children.Add(imageBorder);
                     board[i, j] = imageField;
                 }
             }
@@ -72,6 +81,7 @@ namespace WpfApp3
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
                     board[i, j].Source = new BitmapImage(new Uri(@"./images/emptyField.jpg", UriKind.Relative));
+                    board[i, j].Visibility = Visibility.Hidden;
                 }
             }
         }
@@ -81,17 +91,33 @@ namespace WpfApp3
             switch (fieldState)
             {
                 case FieldState.Empty:
-                    board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/emptyField.jpg", UriKind.Relative));
+                    board[field.Item1, field.Item2].Visibility = Visibility.Hidden;
                     break;
                 case FieldState.Snake:
                     board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/snakePart.png", UriKind.Relative));
+                    board[field.Item1, field.Item2].Visibility = Visibility.Visible;
                     break;
                 case FieldState.Fruit:
                     board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/fruit.png", UriKind.Relative));
+                    board[field.Item1, field.Item2].Visibility = Visibility.Visible;
                     break;
                 case FieldState.SnakeHead:
-                    //todo add rotating image based on direction
-                    board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/snakeHead.png", UriKind.Relative));
+                    switch (direction)
+                    {
+                        case Direction.Left:
+                            board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/snakeHeadLeft.png", UriKind.Relative));
+                            break;
+                        case Direction.Right:
+                            board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/snakeHeadRight.png", UriKind.Relative));
+                            break;
+                        case Direction.Top:
+                            board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/snakeHeadTop.png", UriKind.Relative));
+                            break;
+                        case Direction.Bottom:
+                            board[field.Item1, field.Item2].Source = new BitmapImage(new Uri(@"./images/snakeHeadBottom.png", UriKind.Relative));
+                            break;
+                    }
+                    board[field.Item1, field.Item2].Visibility = Visibility.Visible;
                     break;
             }
             
@@ -114,6 +140,12 @@ namespace WpfApp3
                     snake.ChangeDirection(Direction.Right);
                     break;
             }
+        }
+
+        private void BindScore()
+        {
+            var scoreBinding = new Binding("Score") { Source = snake };
+            ScoreText.SetBinding(TextBlock.TextProperty, scoreBinding);
         }
     }
 }
