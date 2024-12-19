@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="800"
-        KeyDown="ChangeDirectionHandler">
+        Title="Snake" Height="650" Width="800"
+        KeyDown="KeyPressEventHandler">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />

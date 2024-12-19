@@ -43,7 +43,7 @@ namespace WpfApp3
         public Snake(int boardRows, int boardCols)
         {
             this.snakeLocation = new LinkedList<Tuple<int, int>>();
-            snakeLocation.AddFirst(new Tuple<int, int>(3, 0)); //starting position
+            snakeLocation.AddFirst(new Tuple<int, int>(0, 0)); //starting position
             this.snakeHeadDirection = Direction.Right;
             this.boardRows = boardRows;
             this.boardCols = boardCols;
@@ -86,21 +86,16 @@ namespace WpfApp3
                     break;
             }
 
+            newHeadLocation = BringBackIfOutOfBoard(newHeadLocation);
+
             if (FieldIsLosing(newHeadLocation))
             {
                 gameEnded?.Invoke();
                 return;
             }
 
-            //move snake head
-            if(snakeLocation.Count > 1)
-            {
+            if(snakeLocation.Count != 1)
                 fieldStateChanged.Invoke(headLocation, FieldState.Snake, null);
-            }
-            else
-            {
-                fieldStateChanged.Invoke(headLocation, FieldState.Empty, null);
-            }
 
             snakeLocation.AddFirst(newHeadLocation);
             fieldStateChanged.Invoke(newHeadLocation, FieldState.SnakeHead, snakeHeadDirection);
@@ -118,10 +113,23 @@ namespace WpfApp3
             }
         }
 
+        private Tuple<int, int> BringBackIfOutOfBoard(Tuple<int, int> newHeadLocation)
+        {
+            if (newHeadLocation.Item1 < 0)
+                newHeadLocation = new Tuple<int, int>(newHeadLocation.Item1 + boardRows, newHeadLocation.Item2);
+            else if (newHeadLocation.Item1 >= boardRows)
+                newHeadLocation = new Tuple<int, int>(newHeadLocation.Item1 - boardRows, newHeadLocation.Item2);
+            else if (newHeadLocation.Item2 < 0)
+                newHeadLocation = new Tuple<int, int>(newHeadLocation.Item1, newHeadLocation.Item2 + boardCols);
+            else if (newHeadLocation.Item2 >= boardCols)
+                newHeadLocation = new Tuple<int, int>(newHeadLocation.Item1, newHeadLocation.Item2 - boardCols);
+
+            return newHeadLocation;
+        }
+
         private bool FieldIsLosing(Tuple<int, int> field)
         {
-            if (field.Item1 < 0 || field.Item1 >= boardRows || field.Item2 < 0 || field.Item2 >= boardCols
-                || snakeLocation.Contains(field))
+            if (snakeLocation.Contains(field))
             {
                 return true;
             }

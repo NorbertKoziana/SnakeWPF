@@ -21,12 +21,19 @@ namespace WpfApp3
 
         private Snake snake;
 
+        private bool _isGameActive;
+
         public MainWindow()
         {
             InitializeComponent();
 
             InitializeBoard();
 
+            StartGame();
+        }
+
+        private void StartGame()
+        {
             DrawEmptyBoard();
 
             InitializeSnake();
@@ -34,14 +41,17 @@ namespace WpfApp3
             BindScore();
 
             snake.fieldStateChanged += UpdateBoard;
+            snake.gameEnded += StopGame;
 
             snake.GenerateNewFruit();
 
             startMovingSnake();
         }
+
         private async void startMovingSnake()
         {
-            while (true)
+            _isGameActive = true;
+            while (_isGameActive)
             {
                 await Task.Delay(150);
                 snake.MakeNextMove();
@@ -80,7 +90,6 @@ namespace WpfApp3
             {
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    board[i, j].Source = new BitmapImage(new Uri(@"./images/emptyField.jpg", UriKind.Relative));
                     board[i, j].Visibility = Visibility.Hidden;
                 }
             }
@@ -123,8 +132,18 @@ namespace WpfApp3
             
         }
 
-        private void ChangeDirectionHandler(object sender, KeyEventArgs e)
+        private void KeyPressEventHandler(object sender, KeyEventArgs e)
         {
+            if (!_isGameActive)
+            {
+                if(e.Key == Key.Space)
+                {
+                    StartGame();
+                }
+
+                return;
+            }
+
             switch (e.Key)
             {
                 case Key.Up:
@@ -141,11 +160,16 @@ namespace WpfApp3
                     break;
             }
         }
-
         private void BindScore()
         {
             var scoreBinding = new Binding("Score") { Source = snake };
             ScoreText.SetBinding(TextBlock.TextProperty, scoreBinding);
         }
+
+        private void StopGame()
+        {
+            _isGameActive = false;
+        }
+
     }
 }

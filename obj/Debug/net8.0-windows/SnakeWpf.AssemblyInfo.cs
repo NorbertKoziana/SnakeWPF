@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SnakeWpf")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff9eb5c8a768c5cbdb7690b0c21e34c451972bc9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+53359f4b1f24e8956c2755b309a2fa41671f4897")]
 [assembly: System.Reflection.AssemblyProductAttribute("SnakeWpf")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SnakeWpf")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
